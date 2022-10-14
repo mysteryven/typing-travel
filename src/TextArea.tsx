@@ -17,7 +17,7 @@ const TextArea = (props: TextAreaProps) => {
     },
     content: '',
     onUpdate({editor}) {
-      const text = editor.getText()
+      const text = editor.getText().replaceAll('\n\n', '\n')
       props.onChange(text)
     }
   })

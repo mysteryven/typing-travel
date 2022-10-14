@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.line-delete {
+    background-color: rgba(250, 207, 206, 0.4);
+}
+
+.line-insert {
+    background-color: rgba(172,	231,	174, 0.6);
+}
+
+.line-match {}
+
+.line-substitute {
+    background-color: rgba(196, 222, 252, 0.6);
+}

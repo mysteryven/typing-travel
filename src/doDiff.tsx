@@ -1,4 +1,4 @@
-import { Cell, DiffResult } from './types'
+import { Cell, DiffItem } from './types'
 
 const MATCH = 0
 const INSERT = 1
@@ -9,8 +9,8 @@ export default function doDiff(fromArray: string[], toArray: string[]) {
   return reconstructPath(pathCostAndFlow, fromArray, toArray)
 }
 
-export function reconstructPath(pathCostAndFlow: Array<Cell[]>, from: string[], to: string[]): DiffResult[] {
-  const diffResult: DiffResult[] = []
+export function reconstructPath(pathCostAndFlow: Array<Cell[]>, from: string[], to: string[]): DiffItem[] {
+  const diffResult: DiffItem[] = []
 
   const reconstructPathImpl = (i: number, j: number) => {
     if (pathCostAndFlow[i][j].parent === -1) {

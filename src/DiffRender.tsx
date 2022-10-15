@@ -2,29 +2,45 @@ import { useState } from 'react'
 import DiffView from './DiffView'
 import doDiff from './doDiff'
 import TextArea from './TextArea'
-import { DiffResult } from './types'
+import { DiffItem, DiffTravel } from './types'
+
+function stringToDiff(list: string[]): DiffItem[] {
+  return list.map(item => {
+    return {
+      type: 'match',
+      content: item
+    }
+  })
+}
 
 const DiffRender = () => {
   const [from, setFrom] = useState('')
-  const [to, setTo] = useState('')
-  const [result, setResult] = useState<DiffResult[]>([])
-  const [history, setHistory] = useState<string[]>([])
+  const [result, setResult] = useState<DiffTravel[]>([])
+  const [diffStack, setDiffStack] = useState<string[]>([])
 
   function handleCompare() {
-    setResult(
-      doDiff(from.split('\n'), to.split('\n'))
-    )
+    if (diffStack.length <=1) {
+      alert('you should add text to <diff stack> first')
+    }
+    const result: DiffTravel[] = []
+    for (let i = 1; i < diffStack.length; i++) {
+      const prev = diffStack[i-1].split('\n')
+      const next = diffStack[i].split('\n')
+      result.push([stringToDiff(prev), doDiff(prev, next), stringToDiff(next)])
+    } 
+    
+    setResult(result)
   }
 
   function handleAddRecord() {
-    const newHistory = [...history]
+    const newHistory = [...diffStack]
     newHistory.push(from)
-    setHistory(newHistory)
+    setDiffStack(newHistory)
   }
 
   function handleChangeHistory(index: number, newHistory: string) {
-    history[index] = newHistory
-    setHistory([...history])
+    diffStack[index] = newHistory
+    setDiffStack([...diffStack])
   }
 
   return (
@@ -43,9 +59,9 @@ const DiffRender = () => {
           <div className="font-mono mt-4 mb-2">Diff Stack</div>
           <div className="overflow-y-auto h-[400px] border border-gray-600 rounded-sm px-2 py-1">
             {
-              history.map((eachHistory, index) => (
+              diffStack.map((content, index) => (
                 <div key={index} className="mb-2 bg-gray-100 rounded-sm">
-                  <TextArea value={eachHistory} onChange={(newHistory) => handleChangeHistory(index, newHistory)} />
+                  <TextArea value={content} onChange={(newContent) => handleChangeHistory(index, newContent)} />
                 </div>
               ))
             }
@@ -54,7 +70,7 @@ const DiffRender = () => {
         </div>
       </div>
       <div className="ml-4 flex-grow">
-        <DiffView content={result} />
+        <DiffView diffResult={result} />
       </div>
     </div>
   )

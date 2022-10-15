@@ -1,17 +1,33 @@
-import { DiffResult } from './types'
+import { useCallback, useEffect, useState } from 'react'
+import CodePanel from './CodePanel'
+import { DiffTravel } from './types'
 
 interface DiffViewProps {
-  content: DiffResult[]
+  diffResult: DiffTravel[]
 }
 
 const DiffView = (props: DiffViewProps) => {
-  const { content } = props
-  const classNameMap = {
-    'delete': 'line-delete',
-    'insert': 'line-insert',
-    'match': 'line-match',
-    'substitute': 'line-substitute'
-  }
+  const { diffResult } = props
+  const [beforeRef, setBeforeRef] = useState<HTMLDivElement>()
+  const [afterRef, setAfterRef] = useState<HTMLDivElement>()
+
+  const memoBeforeRefFn = useCallback((node: HTMLDivElement) => {
+    if (node) {
+      setBeforeRef(node)
+    }
+  }, [])
+
+  const memoAfterRefFn = useCallback((node: HTMLDivElement) => {
+    if (node) {
+      setAfterRef(node)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (beforeRef && afterRef) {
+
+    }
+  }, [beforeRef, afterRef])
 
   return (
     <div>
@@ -32,20 +48,16 @@ const DiffView = (props: DiffViewProps) => {
           </div>
         </div>
       </div>
-      {
-        content.map((item, index) => {
-          return (
-            <div key={index} className={`${classNameMap[item.type]} py-1 px-2 rounded-sm text-gray-700 min-h-[28px] flex items-center`}>
-              <div className="text-gray-500 pr-4 mr-2">
-                {index + 1}
-              </div>
-              <div>
-                {item.content}
-              </div>
+      <div>
+        {
+          diffResult.map((changeProcess, index) => (
+            <div key={index} className="flex">
+              <CodePanel ref={memoBeforeRefFn} content={changeProcess[0]} />
+              <CodePanel ref={memoAfterRefFn} content={changeProcess[2]} />
             </div>
-          )
-        })
-      }
+          ))
+        }
+      </div>
     </div>
   )
 }

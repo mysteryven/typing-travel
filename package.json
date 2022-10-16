@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "example": "vite example",
-    "prepublish": "pnpm build",
-    "test": "pnpm vitest"
+    "prepublish": "npm build",
+    "test": "npm vitest"
   },
   "dependencies": {
     "@tiptap/react": "2.0.0-beta.199",

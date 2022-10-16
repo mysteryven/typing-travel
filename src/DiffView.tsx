@@ -53,7 +53,7 @@ const DiffView = (props: DiffViewProps) => {
       {
         ids.map(([startId, endId], index) => {
           return (
-            <Fragment key={index}>
+            <Fragment key={Math.random()}>
               <Xarrow color="rgb(249, 168, 212, 0.4)" zIndex={3} curveness={0.4} strokeWidth={6} start={startId} end={endId} />
               {
                 index !== ids.length - 1 && (

@@ -61,7 +61,12 @@ const DiffRender = () => {
             {
               diffStack.map((content, index) => (
                 <div key={index} className="mb-2 bg-gray-100 rounded-sm">
-                  <TextArea value={content} onChange={(newContent) => handleChangeHistory(index, newContent)} />
+                  {/* <TextArea value={content} onChange={(newContent) => handleChangeHistory(index, newContent)} /> */}
+                  <code>
+                    <pre className="px-1">
+                      {content}
+                    </pre>
+                  </code>
                 </div>
               ))
             }

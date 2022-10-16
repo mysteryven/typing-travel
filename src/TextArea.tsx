@@ -1,16 +1,15 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
 interface TextAreaProps {
   onChange: (code: string) => void;
-  value?: string
+  value?: string;
+  type?: 'html' | 'text'
 }
 
 const TextArea = (props: TextAreaProps) => {
   const { value } = props
-
-
 
   const editor = useEditor({
     extensions: [
@@ -21,10 +20,15 @@ const TextArea = (props: TextAreaProps) => {
         class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none border px-2 py-1 min-h-[180px]',
       },
     },
-    content: '<pre></pre>',
+    content: '',
     onUpdate({ editor }) {
-      const text = editor.getText().replaceAll('\n\n', '\n')
-      props.onChange(text)
+      if (props.type === 'html') {
+        const text = editor.getHTML()
+        props.onChange(text)
+      } else {
+        const text = editor.getText().replaceAll('\n\n', '\n')
+        props.onChange(text)
+      }
     }
   })
 

@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import Xarrow from 'react-xarrows'
 import CodePanel from './CodePanel'
 import { DiffTravel } from './types'
 
@@ -8,26 +9,10 @@ interface DiffViewProps {
 
 const DiffView = (props: DiffViewProps) => {
   const { diffResult } = props
-  const [beforeRef, setBeforeRef] = useState<HTMLDivElement>()
-  const [afterRef, setAfterRef] = useState<HTMLDivElement>()
 
-  const memoBeforeRefFn = useCallback((node: HTMLDivElement) => {
-    if (node) {
-      setBeforeRef(node)
-    }
-  }, [])
-
-  const memoAfterRefFn = useCallback((node: HTMLDivElement) => {
-    if (node) {
-      setAfterRef(node)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (beforeRef && afterRef) {
-
-    }
-  }, [beforeRef, afterRef])
+  const ids = new Array(diffResult.length).fill(null).map((_, index) => {
+    return [`code-start-${index}`, `code-end-${index}`]
+  })
 
   return (
     <div>
@@ -48,17 +33,38 @@ const DiffView = (props: DiffViewProps) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="relative z-10">
         {
           diffResult.map((changeProcess, index) => (
-            <div key={index} className="flex">
-              <CodePanel ref={memoBeforeRefFn} content={changeProcess[0]} />
-              <CodePanel ref={memoAfterRefFn} content={changeProcess[2]} />
+            <div key={index} className="flex justify-between items-start relative mb-32">
+              <div id={ids[index][0]}>
+                <CodePanel content={changeProcess[0]} />
+              </div>
+              <div id={ids[index][1]} className="mt-6">
+                <CodePanel content={changeProcess[2]} />
+              </div>
+              <div className="absolute left-[280px] top-[80px] z-10 bg-white">
+                <CodePanel content={changeProcess[1]}></CodePanel>
+              </div>
             </div>
           ))
         }
       </div>
-    </div>
+      {
+        ids.map(([startId, endId], index) => {
+          return (
+            <Fragment key={index}>
+              <Xarrow color="rgb(249, 168, 212, 0.4)" zIndex={3} curveness={0.4} strokeWidth={6} start={startId} end={endId} />
+              {
+                index !== ids.length - 1 && (
+                  <Xarrow color="#f5d0fe" zIndex={1} showHead={false} curveness={0.4} strokeWidth={6} start={endId} end={ids[index+1][0]} />
+                )
+              }
+            </Fragment>
+          )
+        })
+      }
+    </div >
   )
 }
 

@@ -19,16 +19,16 @@ const DiffRender = () => {
   const [diffStack, setDiffStack] = useState<string[]>([])
 
   function handleCompare() {
-    if (diffStack.length <=1) {
+    if (diffStack.length <= 1) {
       alert('you should add text to <diff stack> first')
     }
     const result: DiffTravel[] = []
     for (let i = 1; i < diffStack.length; i++) {
-      const prev = diffStack[i-1].split('\n')
+      const prev = diffStack[i - 1].split('\n')
       const next = diffStack[i].split('\n')
       result.push([stringToDiff(prev), doDiff(prev, next), stringToDiff(next)])
-    } 
-    
+    }
+
     setResult(result)
   }
 
@@ -70,7 +70,11 @@ const DiffRender = () => {
         </div>
       </div>
       <div className="ml-4 flex-grow">
-        <DiffView diffResult={result} />
+        {
+          result.length > 0 && (
+            <DiffView diffResult={result} />
+          )
+        }
       </div>
     </div>
   )

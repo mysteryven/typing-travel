@@ -14,7 +14,8 @@
     "@tiptap/react": "2.0.0-beta.199",
     "@tiptap/starter-kit": "2.0.0-beta.199",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-xarrows": "^2.0.2"
   },
   "devDependencies": {
     "@mysteryzzz/eslint-config-react": "0.0.1",

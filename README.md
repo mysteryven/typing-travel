@@ -1,3 +1,3 @@
 # Typing Travel 
 
-[preview]()
+[preview](https://typing-travel.netlify.app/)

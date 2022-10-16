@@ -14,11 +14,11 @@ const CodePanel = forwardRef<HTMLDivElement, CodePanelProps>(function CodePanel(
     'substitute': 'line-substitute'
   }
   return (
-    <div className="border w-72" ref={ref}>
+    <div className="rounded-sm w-64 border bg-white shadow-xl" ref={ref}>
       {
         content.map((item, index) => {
           return (
-            <div key={index} className={`${classNameMap[item.type]} py-1 px-2 rounded-sm text-gray-700 min-h-[28px] flex items-center`}>
+            <div key={index} className={`${classNameMap[item.type]} py-1 px-2 min-h-[28px] flex items-center`}>
               <div className="text-gray-500 pr-4 mr-2">
                 {index + 1}
               </div>

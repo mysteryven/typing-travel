@@ -16,8 +16,8 @@ const DiffView = (props: DiffViewProps) => {
 
   return (
     <div>
-      <h1 className="text-lg text-center font-bold"> Result</h1>
-      <div>
+      <h1 className="text-lg text-center font-bold mb-12"> Result</h1>
+      <div className="fixed top-8 right-4 z-10">
         <div className="flex justify-end items-center my-4">
           <div className="flex items-center mr-2 ">
             <div className="line-delete rounded-sm w-16 h-6" />
@@ -33,7 +33,7 @@ const DiffView = (props: DiffViewProps) => {
           </div>
         </div>
       </div>
-      <div className="relative z-10">
+      <div className="relative bg-teal-600 p-4">
         {
           diffResult.map((changeProcess, index) => (
             <div key={index} className="flex justify-between items-start relative mb-32">
@@ -43,7 +43,7 @@ const DiffView = (props: DiffViewProps) => {
               <div id={ids[index][1]} className="mt-6">
                 <CodePanel content={changeProcess[2]} />
               </div>
-              <div className="absolute left-[280px] top-[80px] z-10 bg-white">
+              <div className="absolute left-[280px] top-[50%] z-10">
                 <CodePanel content={changeProcess[1]}></CodePanel>
               </div>
             </div>
